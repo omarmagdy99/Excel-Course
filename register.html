@@ -46,7 +46,7 @@
   .float-tags span{position:absolute; font-family:'IBM Plex Mono'; font-size:13px; color:var(--glow); background:rgba(63,224,207,.08); border:1px solid rgba(63,224,207,.25); padding:4px 10px; border-radius:8px; direction:ltr; opacity:0; animation:drift 7s ease-in-out infinite;}
   @keyframes drift{0%{opacity:0; transform:translateY(8px);}15%{opacity:.9;}85%{opacity:.9;}100%{opacity:0; transform:translateY(-12px);}}
 
-  .form-section{padding:54px 0 70px;}
+  .form-section{padding:54px 0 70px; scroll-margin-top:80px;}
   .form-head{text-align:center; margin-bottom:30px;}
   .form-head .kick{font-family:'IBM Plex Mono'; font-size:13px; color:var(--teal); letter-spacing:2px; text-transform:uppercase;}
   .form-head h2{font-size:clamp(24px,3.4vw,32px); font-weight:800; color:var(--ink); margin-top:10px;}
@@ -88,7 +88,11 @@
     <h1>سجّل في <span class="hl">كورس Excel</span><br>للتحليل والداتا</h1>
     <p>6 محاضرات عملية من المبتدئ إلى الاحتراف. املأ النموذج بالأسفل وهنتواصل معاك لتأكيد مكانك.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="index.html#content">عرض المحتوى</a>
+      <a class="btn btn-primary" href="#form">
+        سجّل الآن
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+      </a>
+      <a class="btn btn-ghost" href="index.html#content">عرض المحتوى</a>
       <button class="btn btn-ghost" type="button" onclick="shareReg()">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
         مشاركة رابط التسجيل
@@ -97,16 +101,16 @@
   </div>
 </header>
 
-<section class="form-section"><div class="wrap">
+<section class="form-section" id="form"><div class="wrap">
   <div class="form-head">
     <div class="kick">registration</div>
     <h2>نموذج التسجيل</h2>
     <p>كل الخانات اللي عليها علامة <span style="color:#e11d48">*</span> مطلوبة.</p>
   </div>
+  <p class="note" style="margin-top:0; margin-bottom:18px;">مش ظاهر عندك النموذج؟ <a href="https://docs.google.com/forms/d/e/1FAIpQLSfY7aoH6AkW1HGvvUH_cqnxZbRPRld5mFuKiDYMGSnBi_ndUw/viewform" target="_blank" rel="noopener">افتحه في صفحة منفصلة</a></p>
   <div class="form-card">
     <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfY7aoH6AkW1HGvvUH_cqnxZbRPRld5mFuKiDYMGSnBi_ndUw/viewform?embedded=true" title="نموذج التسجيل في كورس Excel" loading="lazy">جارٍ تحميل النموذج…</iframe>
   </div>
-  <p class="note">مش ظاهر عندك النموذج؟ <a href="https://docs.google.com/forms/d/e/1FAIpQLSfY7aoH6AkW1HGvvUH_cqnxZbRPRld5mFuKiDYMGSnBi_ndUw/viewform" target="_blank" rel="noopener">افتحه في صفحة منفصلة</a></p>
 </div></section>
 
 <div class="toast" id="toast">تم نسخ رابط التسجيل</div>
