@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>المحاضرة الأولى · كورس Excel للتحليل والداتا</title>
+<meta name="description" content="مراجعة المحاضرة الأولى: الجداول الذكية، الدوال الأساسية، وتجهيز البيانات — شرح عملي خطوة بخطوة مع أمثلة." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800;900&family=Tajawal:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#072233; --ink2:#0a3247; --teal:#0fa697; --teal2:#16c7b5; --glow:#3fe0cf;
+    --gold:#f2b544; --paper:#f4f8f7; --card:#ffffff; --text:#0c2430; --muted:#5a7480;
+    --line:rgba(15,166,151,.16); --r:14px; --r-lg:20px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Tajawal',sans-serif; background:var(--paper); color:var(--text); line-height:1.9; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+  h1,h2,h3{font-family:'Cairo',sans-serif; line-height:1.35;}
+  .wrap{max-width:920px; margin:0 auto; padding:0 22px;}
+  a{color:inherit; text-decoration:none;}
+  code,.mono{font-family:'IBM Plex Mono',monospace; direction:ltr; unicode-bidi:isolate;}
+
+  .nav{position:sticky; top:0; z-index:50; backdrop-filter:blur(10px); background:rgba(7,34,51,.88); border-bottom:1px solid rgba(255,255,255,.08);}
+  .nav .wrap{max-width:1080px; display:flex; align-items:center; justify-content:space-between; height:62px;}
+  .brand{display:flex; align-items:center; gap:10px; color:#eafaf7; font-family:'Cairo'; font-weight:800; font-size:15px;}
+  .brand .dot{width:30px; height:30px; border-radius:9px; background:linear-gradient(135deg,var(--teal2),var(--teal)); display:grid; place-items:center; color:#04201c; font-size:16px; box-shadow:0 0 18px rgba(63,224,207,.45);}
+  .btn{display:inline-flex; align-items:center; gap:8px; font-family:'Cairo'; font-weight:700; cursor:pointer; border:none; border-radius:999px; padding:9px 18px; transition:.25s; font-size:14px;}
+  .btn-primary{background:linear-gradient(135deg,var(--teal2),var(--teal)); color:#04201c; box-shadow:0 6px 18px rgba(15,166,151,.4);}
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{background:transparent; color:#eafaf7; border:1px solid rgba(255,255,255,.25);}
+  .btn-ghost:hover{background:rgba(255,255,255,.08);}
+
+  .hero{position:relative; background:radial-gradient(120% 130% at 100% 0%, var(--ink2) 0%, var(--ink) 58%); color:#eafaf7; overflow:hidden; padding:60px 0 66px;}
+  .hero::before{content:""; position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px); background-size:40px 40px; mask-image:radial-gradient(110% 90% at 70% 0%,#000 30%,transparent 75%);}
+  .hero .wrap{position:relative;}
+  .kicker{display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Mono'; font-size:13px; color:var(--glow); border:1px solid rgba(63,224,207,.35); padding:6px 14px; border-radius:999px; background:rgba(63,224,207,.06); margin-bottom:18px;}
+  .hero h1{font-size:clamp(26px,4.4vw,42px); font-weight:900; color:#fff;}
+  .hero p{font-size:clamp(15px,2vw,18px); color:#b9d4d0; margin-top:14px; max-width:620px;}
+
+  /* section chip nav */
+  .toc{position:sticky; top:62px; z-index:40; background:rgba(244,248,247,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:12px 0;}
+  .toc .row{display:flex; gap:8px; overflow-x:auto; padding-bottom:2px;}
+  .toc a{flex:0 0 auto; font-size:13.5px; font-weight:700; font-family:'Cairo'; color:var(--ink); background:#fff; border:1px solid var(--line); padding:7px 14px; border-radius:999px; transition:.2s;}
+  .toc a:hover{background:#eef9f6; border-color:var(--teal);}
+
+  .section{padding:46px 0; scroll-margin-top:130px;}
+  .section + .section{border-top:1px dashed var(--line);}
+  .s-head{display:flex; align-items:center; gap:14px; margin-bottom:8px;}
+  .s-num{flex:0 0 auto; width:46px; height:46px; border-radius:13px; background:linear-gradient(150deg,var(--teal),var(--ink)); color:#fff; display:grid; place-items:center; font-family:'IBM Plex Mono'; font-weight:600; font-size:18px;}
+  .section h2{font-size:clamp(21px,3vw,28px); font-weight:800; color:var(--ink);}
+  .section h2 .en{color:var(--teal); font-size:.7em;}
+  .lead{color:var(--muted); font-size:16px; margin:6px 0 18px;}
+
+  .steps{list-style:none; counter-reset:st; display:flex; flex-direction:column; gap:12px; margin:14px 0;}
+  .steps li{counter-increment:st; position:relative; padding:12px 58px 12px 16px; background:var(--card); border:1px solid var(--line); border-radius:var(--r); font-size:15.5px;}
+  .steps li::before{content:counter(st); position:absolute; right:14px; top:50%; transform:translateY(-50%); width:32px; height:32px; border-radius:50%; background:var(--teal); color:#fff; display:grid; place-items:center; font-family:'Cairo'; font-weight:800; font-size:15px;}
+
+  .formula{direction:ltr; text-align:left; font-family:'IBM Plex Mono'; font-size:15px; background:#06222e; color:#9ff0e2; padding:12px 16px; border-radius:10px; margin:8px 0; overflow-x:auto; border:1px solid rgba(63,224,207,.25);}
+  .formula .c{color:#6f93a0;}
+
+  .tip{display:flex; gap:12px; align-items:flex-start; background:#eef9f6; border-right:4px solid var(--teal); border-radius:10px; padding:12px 16px; margin:14px 0; font-size:15px;}
+  .tip svg{flex:0 0 auto; width:22px; height:22px; stroke:var(--teal); margin-top:3px;}
+  .tip b{color:var(--ink); font-family:'Cairo';}
+  .why{background:#fff; border:1px solid var(--line); border-radius:var(--r); padding:14px 18px; margin:12px 0; font-size:15.5px;}
+  .why b{color:var(--teal); font-family:'Cairo';}
+
+  .example{background:#fff; border:1px dashed var(--teal); border-radius:var(--r); padding:16px 18px; margin:14px 0;}
+  .example .lbl{font-family:'Cairo'; font-weight:800; color:var(--ink); display:inline-flex; align-items:center; gap:8px; margin-bottom:6px;}
+  .example .lbl .pin{width:8px; height:8px; background:var(--gold); border-radius:50%; display:inline-block;}
+
+  .cta-box{background:linear-gradient(135deg,var(--ink),var(--ink2)); color:#eafaf7; border-radius:22px; padding:36px 28px; text-align:center; margin:40px 0;}
+  .cta-box h2{color:#fff; font-size:24px;}
+  .cta-box p{color:#bcd6d2; margin:12px auto 22px; max-width:520px;}
+  .cta-box .btns{display:flex; gap:12px; justify-content:center; flex-wrap:wrap;}
+
+  footer{background:var(--ink); color:#7fa39d; text-align:center; padding:28px 0; font-size:14px;}
+  .reveal{opacity:0; transform:translateY(22px); transition:opacity .6s, transform .6s;}
+  .reveal.in{opacity:1; transform:none;}
+  @media (prefers-reduced-motion:reduce){ *{animation:none!important; transition:none!important;} .reveal{opacity:1; transform:none;} }
+  @media (max-width:600px){ .nav .btn-ghost{display:none;} }
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="index.html"><span class="dot">∑</span> Excel للتحليل والداتا</a>
+  <div style="display:flex; gap:10px; align-items:center;">
+    <a class="btn btn-ghost" href="index.html#content">كل المحتوى</a>
+    <a class="btn btn-primary" href="register.html">سجّل الآن</a>
+  </div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <span class="kicker">● المحاضرة الأولى</span>
+  <h1>الجداول الذكية، الدوال الأساسية، وتجهيز البيانات</h1>
+  <p>دي مراجعة كاملة للي اتشرح في أول محاضرة. كل نقطة فيها "إيه هي + إزاي تعملها خطوة بخطوة + مثال" عشان تقدر تذاكر وتطبّق لوحدك. الأمثلة كلها على نفس ملف مبيعات الأجهزة بتاع الشرح.</p>
+</div></header>
+
+<div class="toc"><div class="wrap"><div class="row">
+  <a href="#s1">الجداول الذكية</a>
+  <a href="#s2">تثبيت العناوين</a>
+  <a href="#s3">الفرز والفلترة</a>
+  <a href="#s4">الأعمدة المحسوبة</a>
+  <a href="#s5">الدوال الأساسية</a>
+  <a href="#s6">المرجع المطلق $</a>
+  <a href="#s7">الواجب</a>
+</div></div></div>
+
+<main class="wrap">
+
+  <!-- S1 -->
+  <section class="section reveal" id="s1">
+    <div class="s-head"><span class="s-num">01</span><h2>الجداول الذكية <span class="en">Excel Tables</span></h2></div>
+    <p class="lead">بدل ما تشتغل على بيانات خام مبعثرة، تحوّلها لجدول ذكي بمميزات جاهزة بضغطة زرار.</p>
+    <div class="why"><b>ليه مهم؟</b> الجدول الذكي بيتوسّع تلقائياً مع أي صف جديد، بيجيله تنسيق وفلاتر جاهزة، وأهم حاجة: المعادلات بتتنسخ لكل الصفوف لوحدها.</div>
+    <ol class="steps">
+      <li>اضغط على أي خلية جوه بياناتك.</li>
+      <li>اضغط <code>Ctrl + T</code>.</li>
+      <li>تأكد إن خيار <code>My table has headers</code> متعلّم، واضغط <code>OK</code>.</li>
+    </ol>
+    <div class="example">
+      <span class="lbl"><span class="pin"></span> مثال</span>
+      <div>عندك بيانات المبيعات من <code>A1</code> لحد <code>G33</code> → قف جواها واضغط <code>Ctrl + T</code> → بقت جدول ذكي بفلاتر تلقائية في رؤوس الأعمدة.</div>
+    </div>
+    <div class="tip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/><path d="M9 21h6"/></svg><div><b>نصيحة:</b> من تبويب <code>Table Design</code> تقدر تغيّر ألوان الجدول وتدّيله اسم واضح بدل <code>Table1</code>.</div></div>
+  </section>
+
+  <!-- S2 -->
+  <section class="section reveal" id="s2">
+    <div class="s-head"><span class="s-num">02</span><h2>تثبيت العناوين <span class="en">Freeze Panes</span></h2></div>
+    <p class="lead">عشان العناوين متختفيش وانت بتنزل في بيانات كتير.</p>
+    <div class="why"><b>المشكلة:</b> لما البيانات تكتر وتنزل لتحت، رؤوس الأعمدة بتختفي ويصعب تعرف كل عمود بيمثّل إيه.</div>
+    <ol class="steps">
+      <li>روح لتبويب <code>View</code> (عرض).</li>
+      <li>اضغط <code>Freeze Panes</code>.</li>
+      <li>اختار <code>Freeze Top Row</code> لتثبيت صف العناوين.</li>
+    </ol>
+    <div class="tip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/><path d="M9 21h6"/></svg><div><b>نصيحة:</b> عايز تثبّت كذا صف أو عمود؟ قف على الخلية اللي تحت وعلى يمين اللي عايز تثبّته، وبعدين اختار <code>Freeze Panes</code>.</div></div>
+  </section>
+
+  <!-- S3 -->
+  <section class="section reveal" id="s3">
+    <div class="s-head"><span class="s-num">03</span><h2>الفرز والفلترة <span class="en">Sort &amp; Filter</span></h2></div>
+    <p class="lead">ترتيب البيانات وعزل الجزء اللي يهمك منها.</p>
+    <div class="why"><b>الفرز (Sort):</b> ترتيب تصاعدي/تنازلي (أبجدي، أو من الأكبر للأصغر…). <br><b>الفلترة (Filter):</b> إظهار الصفوف اللي تطابق شرط معيّن وإخفاء الباقي.</div>
+    <ol class="steps">
+      <li>اضغط على سهم الفلتر في رأس العمود اللي عايز تشتغل عليه.</li>
+      <li>للترتيب: اختار <code>Sort A→Z</code> أو <code>Sort Largest to Smallest</code>.</li>
+      <li>للفلترة: شيل العلامة عن القيم اللي مش عايزها وسيب اللي يهمك بس.</li>
+    </ol>
+    <div class="example">
+      <span class="lbl"><span class="pin"></span> مثال</span>
+      <div>رتّب حسب عمود <b>الإجمالي</b> تنازلياً عشان تشوف أعلى عمليات بيع بسرعة. وفلتر عمود <b>المنطقة</b> على <b>"القاهرة"</b> عشان تشوف مبيعاتها لوحدها.</div>
+    </div>
+  </section>
+
+  <!-- S4 -->
+  <section class="section reveal" id="s4">
+    <div class="s-head"><span class="s-num">04</span><h2>الأعمدة المحسوبة <span class="en">Calculated Columns</span></h2></div>
+    <p class="lead">عمود جديد بيحسب قيمة من الأعمدة الموجودة.</p>
+    <ol class="steps">
+      <li>أضف عمود جديد جنب الجدول وسمّيه <b>الإجمالي</b>.</li>
+      <li>في أول خلية اكتب معادلة الضرب: الكمية × سعر الوحدة.</li>
+      <li>اضغط <code>Enter</code> — الجدول الذكي هينسخ المعادلة لكل الصفوف لوحده!</li>
+    </ol>
+    <div class="formula">H2 = =F2*G2  <span class="c">// الكمية × سعر الوحدة</span></div>
+    <div class="tip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/><path d="M9 21h6"/></svg><div><b>نصيحة:</b> جوه الجدول الذكي ممكن تكتب المعادلة بأسماء الأعمدة وتبقى أوضح: <code>=[@الكمية]*[@[سعر الوحدة]]</code>. ومش محتاج تسحب يدوي خالص.</div></div>
+  </section>
+
+  <!-- S5 -->
+  <section class="section reveal" id="s5">
+    <div class="s-head"><span class="s-num">05</span><h2>الدوال الأساسية <span class="en">Basic Functions</span></h2></div>
+    <p class="lead">خمس دوال هتستخدمها في كل تقرير تقريباً. كلها بتشتغل على عمود الإجمالي <code>H2:H33</code>.</p>
+    <div class="formula">
+=SUM(H2:H33)      <span class="c">// إجمالي المبيعات</span>
+<br>=AVERAGE(H2:H33)  <span class="c">// متوسط قيمة العملية</span>
+<br>=MAX(H2:H33)      <span class="c">// أكبر فاتورة</span>
+<br>=MIN(H2:H33)      <span class="c">// أقل فاتورة</span>
+<br>=COUNT(H2:H33)    <span class="c">// عدد العمليات</span>
+    </div>
+    <div class="tip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/><path d="M9 21h6"/></svg><div><b>نصيحة:</b> لو عايز تعدّ خلايا فيها أي نوع (مش أرقام بس) استخدم <code>COUNTA</code> بدل <code>COUNT</code>.</div></div>
+  </section>
+
+  <!-- S6 -->
+  <section class="section reveal" id="s6">
+    <div class="s-head"><span class="s-num">06</span><h2>المرجع المطلق <span class="en">$ &amp; F4</span></h2></div>
+    <p class="lead">أهم نقطة في الدرس — تثبيت خلية عشان متتحركش وانت بتسحب المعادلة.</p>
+    <div class="why"><b>المشكلة:</b> لما تسحب معادلة بتعتمد على خلية ثابتة (زي المجموع الكلي)، المرجع بيتحرك مع السحب فتطلع نتايج غلط. <br><b>الحل:</b> "تثبّت" الخلية بعلامة <code>$</code> تخليها مرجع مطلق لا يتغير.</div>
+    <div class="tip"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/><path d="M9 21h6"/></svg><div><b>الاختصار السحري:</b> قف على المرجع في شريط المعادلة واضغط <code>F4</code> — هيحطّلك علامات <code>$</code> تلقائياً (مثال: <code>$H$34</code>).</div></div>
+    <div class="example">
+      <span class="lbl"><span class="pin"></span> مثال: نسبة كل عملية من الإجمالي</span>
+      <div>لو المجموع الكلي في الخلية <code>H34</code>، اكتب في عمود النسبة:</div>
+      <div class="formula">I2 = =H2/$H$34  <span class="c">// المقام مثبّت بـ $</span></div>
+      <div>اسحب لتحت → المقام <code>$H$34</code> هيفضل ثابت في كل الصفوف، والبسط بس هو اللي بيتغير. بعدين نسّق العمود كنسبة مئوية <code>%</code> من تبويب <code>Home</code>.</div>
+    </div>
+  </section>
+
+  <!-- S7 assignment -->
+  <section class="section reveal" id="s7">
+    <div class="s-head"><span class="s-num">07</span><h2>الواجب <span class="en">Assignment</span></h2></div>
+    <p class="lead">طبّق كل اللي فوق بنفسك على ملف <code>lesson1_assignment.xlsx</code> (المُرسَل إليكم).</p>
+    <div class="why">افتح شيت <b>التعليمات</b> واقرأ الخطوات، وبعدين روح لشيت <b>المبيعات</b> ونفّذ بالترتيب:</div>
+    <ol class="steps">
+      <li>حوّل البيانات لجدول ذكي بـ <code>Ctrl + T</code>.</li>
+      <li>ثبّت صف العناوين (<code>Freeze Top Row</code>) وجرّب الفرز والفلترة.</li>
+      <li>أضف عمود <b>الإجمالي</b> = الكمية × سعر الوحدة.</li>
+      <li>احسب: <code>SUM</code> / <code>AVERAGE</code> / <code>MAX</code> / <code>MIN</code> / <code>COUNT</code>.</li>
+      <li>أضف عمود <b>نسبة من الإجمالي</b> باستخدام المرجع المطلق <code>$</code>.</li>
+      <li>رتّب تنازلياً حسب الإجمالي، وفلتر فرعاً واحداً واحسب مبيعاته.</li>
+    </ol>
+  </section>
+
+  <div class="cta-box reveal">
+    <h2>جاهز للمحاضرة الجاية؟</h2>
+    <p>راجع المحتوى الكامل للكورس أو شارك صفحة التسجيل مع أي حد مهتم.</p>
+    <div class="btns">
+      <a class="btn btn-primary" href="index.html#content">المحتوى الكامل</a>
+      <a class="btn btn-ghost" style="color:#eafaf7;border:1px solid rgba(255,255,255,.3)" href="register.html">صفحة التسجيل</a>
+    </div>
+  </div>
+
+</main>
+
+<footer>© <span id="yr"></span> كورس Excel للتحليل والداتا · مراجعة المحاضرة الأولى</footer>
+
+<script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+</script>
+</body>
+</html>
